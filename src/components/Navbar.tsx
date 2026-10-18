@@ -37,7 +37,7 @@ export const Navbar: React.FC<NavbarProps> = React.memo(
     return (
       <header
         className={`sticky top-0 z-30 transition-colors duration-200 ${
-          darkMode ? 'glass-header-dark text-slate-100' : 'glass-header-light text-slate-900'
+          darkMode ? 'glass-header-dark text-white' : 'glass-header-light text-slate-950'
         }`}
       >
         <div className="max-w-[1360px] mx-auto flex items-center justify-between gap-6 px-4 sm:px-6 h-15">
@@ -50,7 +50,9 @@ export const Navbar: React.FC<NavbarProps> = React.memo(
             }}
             data-tooltip="Reset filters & return to top"
             data-tooltip-pos="bottom"
-            className="group inline-flex items-center gap-2.5 font-display text-base sm:text-lg font-bold tracking-tight whitespace-nowrap shrink-0 cursor-pointer"
+            className={`group inline-flex items-center gap-2.5 font-display text-base sm:text-lg font-bold tracking-tight whitespace-nowrap shrink-0 cursor-pointer ${
+              darkMode ? 'text-white' : 'text-slate-950'
+            }`}
           >
             <span
               className={`flex items-center justify-center w-9 h-9 rounded-xl transition-all ${
@@ -82,12 +84,16 @@ export const Navbar: React.FC<NavbarProps> = React.memo(
                     : 'text-slate-950 font-bold'
                   : darkMode
                   ? 'text-slate-300 hover:text-white'
-                  : 'text-slate-600 hover:text-slate-950'
+                  : 'text-slate-700 hover:text-slate-950'
               }`}
             >
               <span>Directory</span>
               {!showingSavedOnly && (
-                <span className="absolute bottom-0 inset-x-0 h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
+                <span
+                  className={`absolute bottom-0 inset-x-0 h-0.5 rounded-full ${
+                    darkMode ? 'bg-blue-400' : 'bg-blue-600'
+                  }`}
+                />
               )}
             </button>
 
@@ -96,8 +102,8 @@ export const Navbar: React.FC<NavbarProps> = React.memo(
               onClick={() => scrollToSection('project-of-the-day')}
               className={`h-full inline-flex items-center whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
                 darkMode
-                  ? 'text-slate-300 hover:text-white'
-                  : 'text-slate-600 hover:text-slate-950'
+                  ? 'text-slate-200 hover:text-white'
+                  : 'text-slate-700 hover:text-slate-950'
               }`}
             >
               <span>Spotlight</span>
@@ -108,8 +114,8 @@ export const Navbar: React.FC<NavbarProps> = React.memo(
               onClick={() => scrollToSection('live-news')}
               className={`h-full inline-flex items-center whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
                 darkMode
-                  ? 'text-slate-300 hover:text-white'
-                  : 'text-slate-600 hover:text-slate-950'
+                  ? 'text-slate-200 hover:text-white'
+                  : 'text-slate-700 hover:text-slate-950'
               }`}
             >
               <span>Pulse</span>
@@ -120,10 +126,12 @@ export const Navbar: React.FC<NavbarProps> = React.memo(
               onClick={onToggleSavedOnly}
               className={`relative h-full inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
                 showingSavedOnly
-                  ? 'text-blue-600 dark:text-blue-400 font-bold'
+                  ? darkMode
+                    ? 'text-blue-400 font-bold'
+                    : 'text-blue-600 font-bold'
                   : darkMode
-                  ? 'text-slate-300 hover:text-white'
-                  : 'text-slate-600 hover:text-slate-950'
+                  ? 'text-slate-200 hover:text-white'
+                  : 'text-slate-700 hover:text-slate-950'
               }`}
             >
               <Bookmark
@@ -132,12 +140,16 @@ export const Navbar: React.FC<NavbarProps> = React.memo(
               />
               <span>Saved</span>
               {savedCount > 0 && (
-                <span className="font-mono tabular-nums text-xs opacity-85">
+                <span className="font-mono tabular-nums text-xs font-bold">
                   · {savedCount}
                 </span>
               )}
               {showingSavedOnly && (
-                <span className="absolute bottom-0 inset-x-0 h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
+                <span
+                  className={`absolute bottom-0 inset-x-0 h-0.5 rounded-full ${
+                    darkMode ? 'bg-blue-400' : 'bg-blue-600'
+                  }`}
+                />
               )}
             </button>
           </nav>
@@ -148,7 +160,7 @@ export const Navbar: React.FC<NavbarProps> = React.memo(
               type="button"
               onClick={onToggleSavedOnly}
               aria-label="Toggle saved repositories"
-              className={`sm:hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer whitespace-nowrap ${
+              className={`sm:hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer whitespace-nowrap ${
                 showingSavedOnly
                   ? darkMode
                     ? 'neu-pressed-dark'
@@ -171,7 +183,7 @@ export const Navbar: React.FC<NavbarProps> = React.memo(
               data-tooltip={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               data-tooltip-pos="left"
               aria-label={darkMode ? 'Switch to light theme' : 'Switch to dark theme'}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold cursor-pointer whitespace-nowrap shrink-0 ${
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold cursor-pointer whitespace-nowrap shrink-0 ${
                 darkMode ? 'neu-btn-dark' : 'neu-btn-light'
               }`}
             >
@@ -182,7 +194,7 @@ export const Navbar: React.FC<NavbarProps> = React.memo(
                 </>
               ) : (
                 <>
-                  <Moon className="w-4 h-4" />
+                  <Moon className="w-4 h-4 text-slate-800" />
                   <span className="hidden sm:inline">Dark</span>
                 </>
               )}

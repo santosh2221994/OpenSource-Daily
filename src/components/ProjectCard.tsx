@@ -70,7 +70,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(
         onClick={() => onInspect(project)}
         onKeyDown={handleKeyDown}
         className={`group h-full flex flex-col justify-between rounded-2xl p-4 sm:p-5 cursor-pointer focus:outline-none ${
-          darkMode ? 'glass-card-dark text-slate-100' : 'glass-card-light text-slate-900'
+          darkMode ? 'glass-card-dark text-white' : 'glass-card-light text-slate-950'
         }`}
       >
         <div>
@@ -80,13 +80,19 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(
               <ProjectLogo project={project} size="md" darkMode={darkMode} />
               <div className="min-w-0">
                 {showCategoryLabel && (
-                  <div className="text-[11px] font-mono font-semibold text-slate-500 dark:text-slate-400 leading-tight truncate mb-0.5">
+                  <div
+                    className={`text-[11px] font-mono font-bold leading-tight truncate mb-0.5 ${
+                      darkMode ? 'text-slate-300' : 'text-slate-600'
+                    }`}
+                  >
                     {CATEGORY_SHORT_LABELS[project.category]}
                   </div>
                 )}
                 <h3
                   className={`font-display text-[15px] sm:text-base font-bold tracking-tight leading-snug truncate transition-colors ${
-                    darkMode ? 'text-white' : 'text-slate-950'
+                    darkMode
+                      ? 'text-white group-hover:text-blue-400'
+                      : 'text-slate-950 group-hover:text-blue-600'
                   }`}
                 >
                   {project.name}
@@ -101,9 +107,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(
               {project.stars !== undefined && (
                 <span
                   data-tooltip={`${project.stars.toLocaleString()} GitHub stars`}
-                  className="inline-flex items-center gap-1 text-xs font-mono font-bold tabular-nums text-slate-800 dark:text-slate-100"
+                  className={`inline-flex items-center gap-1 text-xs font-mono font-bold tabular-nums ${
+                    darkMode ? 'text-white' : 'text-slate-900'
+                  }`}
                 >
-                  <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500/20" />
+                  <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500/25" />
                   <span>{(project.stars / 1000).toFixed(1)}k</span>
                 </span>
               )}
@@ -118,8 +126,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(
                       ? 'neu-pressed-dark'
                       : 'neu-pressed-light'
                     : darkMode
-                    ? 'neu-btn-dark text-slate-300'
-                    : 'neu-btn-light text-slate-600'
+                    ? 'neu-btn-dark'
+                    : 'neu-btn-light'
                 }`}
               >
                 <Bookmark className="w-3.5 h-3.5" fill={isSaved ? 'currentColor' : 'none'} />
@@ -129,8 +137,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(
 
           {/* High-Legibility 2-Line Description */}
           <p
-            className={`text-xs sm:text-[13px] leading-relaxed line-clamp-2 mb-4 ${
-              darkMode ? 'text-slate-200' : 'text-slate-700'
+            className={`text-xs sm:text-[13px] font-medium leading-relaxed line-clamp-2 mb-4 ${
+              darkMode ? 'text-slate-100' : 'text-slate-800'
             }`}
           >
             {project.description}
@@ -140,7 +148,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(
         {/* Footer: Language · Available OS on left, Tactile Micro-Buttons on right */}
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex items-center justify-between gap-2 text-xs font-mono pt-3 border-t border-slate-200/80 dark:border-white/[0.07]"
+          className={`flex items-center justify-between gap-2 text-xs font-mono pt-3 border-t ${
+            darkMode ? 'border-white/10' : 'border-slate-300/75'
+          }`}
         >
           <div className="flex items-center gap-1.5 truncate min-w-0">
             {project.language && onLanguageClick ? (
@@ -148,29 +158,40 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(
                 type="button"
                 onClick={() => onLanguageClick(project.language!)}
                 title={`Filter by ${project.language}`}
-                className="font-semibold text-slate-800 dark:text-slate-100 hover:underline cursor-pointer shrink-0"
+                className={`font-bold hover:underline cursor-pointer shrink-0 ${
+                  darkMode ? 'text-white' : 'text-slate-950'
+                }`}
               >
                 {project.language}
               </button>
             ) : (
-              <span className="font-semibold text-slate-800 dark:text-slate-100 shrink-0">
+              <span
+                className={`font-bold shrink-0 ${
+                  darkMode ? 'text-white' : 'text-slate-950'
+                }`}
+              >
                 {project.language || 'OSS'}
               </span>
             )}
 
-            <span aria-hidden="true" className="text-slate-400 dark:text-slate-500 shrink-0">
+            <span
+              aria-hidden="true"
+              className={`shrink-0 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}
+            >
               ·
             </span>
 
             <span
               title={`Available OS: ${platformInfo.fullSummary}`}
-              className="truncate font-medium text-slate-600 dark:text-slate-300"
+              className={`truncate font-semibold ${
+                darkMode ? 'text-slate-200' : 'text-slate-700'
+              }`}
             >
               {platformInfo.shortSummary}
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0 font-sans font-semibold">
+          <div className="flex items-center gap-1.5 shrink-0 font-sans font-bold">
             {platformInfo.isDownloadableApp && platformInfo.downloadUrl && (
               <a
                 href={platformInfo.downloadUrl}
@@ -183,7 +204,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(
                   darkMode ? 'neu-btn-dark' : 'neu-btn-light'
                 }`}
               >
-                <Download className="w-3 h-3" />
+                <Download className="w-3.5 h-3.5" />
                 <span className="hidden xl:inline">Get</span>
               </a>
             )}
@@ -198,7 +219,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(
                 copiedCli
                   ? darkMode
                     ? 'neu-pressed-dark text-emerald-400'
-                    : 'neu-pressed-light text-emerald-600'
+                    : 'neu-pressed-light text-emerald-700'
                   : darkMode
                   ? 'neu-btn-dark'
                   : 'neu-btn-light'

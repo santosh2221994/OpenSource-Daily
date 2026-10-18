@@ -79,13 +79,17 @@ export const ProjectOfTheDay: React.FC<ProjectOfTheDayProps> = React.memo(
         id="project-of-the-day"
         aria-label="Project of the Day Spotlight"
         className={`rounded-2xl px-5 py-4 transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4 ${
-          darkMode ? 'glass-panel-dark text-slate-100' : 'glass-panel-light text-slate-900'
+          darkMode ? 'glass-panel-dark text-white' : 'glass-panel-light text-slate-950'
         }`}
       >
         {/* Left + Center: Date Navigation + Spotlight Project Summary */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3.5 min-w-0 flex-1">
           <div className="flex items-center gap-2 shrink-0">
-            <span className="text-xs sm:text-[13px] font-mono tabular-nums font-bold text-blue-600 dark:text-blue-400">
+            <span
+              className={`text-xs sm:text-[13px] font-mono tabular-nums font-bold ${
+                darkMode ? 'text-blue-400' : 'text-blue-600'
+              }`}
+            >
               Spotlight · {activeDate}
             </span>
 
@@ -129,7 +133,7 @@ export const ProjectOfTheDay: React.FC<ProjectOfTheDayProps> = React.memo(
           </div>
 
           <span
-            className="hidden sm:inline text-slate-300 dark:text-slate-700"
+            className={`hidden sm:inline ${darkMode ? 'text-slate-600' : 'text-slate-300'}`}
             aria-hidden="true"
           >
             |
@@ -150,14 +154,16 @@ export const ProjectOfTheDay: React.FC<ProjectOfTheDayProps> = React.memo(
             <ProjectLogo project={project} size="md" darkMode={darkMode} />
             <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 min-w-0 flex-1">
               <span
-                className={`font-display text-base font-bold tracking-tight whitespace-nowrap shrink-0 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors ${
-                  darkMode ? 'text-white' : 'text-slate-950'
+                className={`font-display text-base font-bold tracking-tight whitespace-nowrap shrink-0 transition-colors ${
+                  darkMode
+                    ? 'text-white group-hover:text-blue-400'
+                    : 'text-slate-950 group-hover:text-blue-600'
                 }`}
               >
                 {project.name}
               </span>
               <span
-                className={`text-xs sm:text-sm truncate ${
+                className={`text-xs sm:text-sm font-medium truncate ${
                   darkMode ? 'text-slate-200' : 'text-slate-700'
                 }`}
               >
@@ -168,26 +174,34 @@ export const ProjectOfTheDay: React.FC<ProjectOfTheDayProps> = React.memo(
         </div>
 
         {/* Right: OS + Metadata + Tactile Neumorphic Quick Actions */}
-        <div className="flex items-center justify-between sm:justify-end gap-2.5 shrink-0 text-xs font-mono tabular-nums text-slate-600 dark:text-slate-300 pt-2.5 sm:pt-0 border-t sm:border-t-0 border-slate-300/60 dark:border-white/[0.07]">
+        <div
+          className={`flex items-center justify-between sm:justify-end gap-2.5 shrink-0 text-xs font-mono tabular-nums pt-2.5 sm:pt-0 border-t sm:border-t-0 ${
+            darkMode
+              ? 'text-slate-200 border-white/10'
+              : 'text-slate-700 border-slate-300/70'
+          }`}
+        >
           <span
             title={`Available OS: ${platformInfo.fullSummary}`}
-            className="hidden xl:inline font-semibold text-slate-700 dark:text-slate-200"
+            className="hidden xl:inline font-bold"
           >
             {platformInfo.shortSummary}
           </span>
 
-          <span className="hidden xl:inline text-slate-400" aria-hidden="true">
+          <span className="hidden xl:inline opacity-60" aria-hidden="true">
             ·
           </span>
 
-          <span className="font-semibold">{CATEGORY_SHORT_LABELS[project.category]}</span>
+          <span className="font-bold">{CATEGORY_SHORT_LABELS[project.category]}</span>
 
           {project.stars !== undefined && (
             <span
               data-tooltip={`${project.stars.toLocaleString()} GitHub stars`}
-              className="inline-flex items-center gap-1 font-bold tabular-nums text-slate-900 dark:text-white"
+              className={`inline-flex items-center gap-1 font-bold tabular-nums ${
+                darkMode ? 'text-white' : 'text-slate-950'
+              }`}
             >
-              <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500/20" />
+              <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500/25" />
               <span>{(project.stars / 1000).toFixed(1)}k</span>
             </span>
           )}
@@ -198,10 +212,8 @@ export const ProjectOfTheDay: React.FC<ProjectOfTheDayProps> = React.memo(
               target="_blank"
               rel="noopener noreferrer"
               data-tooltip={`Download (${platformInfo.fullSummary})`}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-sans font-semibold ${
-                darkMode
-                  ? 'neu-btn-dark text-blue-400'
-                  : 'neu-btn-light text-blue-600'
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-sans font-bold ${
+                darkMode ? 'neu-btn-dark' : 'neu-btn-light'
               }`}
             >
               <Download className="w-3.5 h-3.5" />
@@ -213,11 +225,11 @@ export const ProjectOfTheDay: React.FC<ProjectOfTheDayProps> = React.memo(
             type="button"
             onClick={handleCopyCli}
             data-tooltip={`Copy CLI: ${cliCommand}`}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-sans font-semibold cursor-pointer ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-sans font-bold cursor-pointer ${
               copiedCli
                 ? darkMode
                   ? 'neu-pressed-dark text-emerald-400'
-                  : 'neu-pressed-light text-emerald-600'
+                  : 'neu-pressed-light text-emerald-700'
                 : darkMode
                 ? 'neu-btn-dark'
                 : 'neu-btn-light'
@@ -241,7 +253,7 @@ export const ProjectOfTheDay: React.FC<ProjectOfTheDayProps> = React.memo(
             target="_blank"
             rel="noopener noreferrer"
             data-tooltip="Open GitHub repository"
-            className="neu-btn-primary inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-sans font-semibold"
+            className="neu-btn-primary inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-sans font-bold"
           >
             <span>GitHub</span>
             <ExternalLink className="w-3.5 h-3.5" />

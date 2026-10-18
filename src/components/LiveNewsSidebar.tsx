@@ -89,7 +89,7 @@ export const LiveNewsSidebar: React.FC<LiveNewsSidebarProps> = React.memo(
         id="live-news"
         aria-label="Daily Open-Source News"
         className={`rounded-2xl p-5 lg:sticky lg:top-20 transition-all ${
-          darkMode ? 'glass-panel-dark text-slate-100' : 'glass-panel-light text-slate-900'
+          darkMode ? 'glass-panel-dark text-white' : 'glass-panel-light text-slate-950'
         }`}
       >
         {/* Clean Header */}
@@ -98,7 +98,11 @@ export const LiveNewsSidebar: React.FC<LiveNewsSidebarProps> = React.memo(
             <h2 className="font-display text-base sm:text-lg font-bold tracking-tight">
               Daily Pulse
             </h2>
-            <span className="text-xs sm:text-sm font-mono font-semibold tabular-nums text-slate-500 dark:text-slate-400">
+            <span
+              className={`text-xs sm:text-sm font-mono font-bold tabular-nums ${
+                darkMode ? 'text-slate-200' : 'text-slate-700'
+              }`}
+            >
               · {filteredNews.length}
             </span>
           </div>
@@ -135,14 +139,14 @@ export const LiveNewsSidebar: React.FC<LiveNewsSidebarProps> = React.memo(
                 aria-selected={active}
                 title={tab.tip}
                 onClick={() => setActiveSource(tab.id)}
-                className={`px-2.5 py-1.5 text-xs font-semibold rounded-lg transition-all whitespace-nowrap shrink-0 cursor-pointer ${
+                className={`px-2.5 py-1.5 text-xs font-bold rounded-lg transition-all whitespace-nowrap shrink-0 cursor-pointer ${
                   active
                     ? darkMode
                       ? 'neu-btn-dark text-blue-400'
                       : 'neu-btn-light text-blue-600'
                     : darkMode
-                    ? 'text-slate-300 hover:text-white'
-                    : 'text-slate-600 hover:text-slate-950'
+                    ? 'text-slate-200 hover:text-white'
+                    : 'text-slate-700 hover:text-slate-950'
                 }`}
               >
                 {tab.label}
@@ -164,11 +168,19 @@ export const LiveNewsSidebar: React.FC<LiveNewsSidebarProps> = React.memo(
             ))}
           </div>
         ) : filteredNews.length === 0 ? (
-          <div className="py-10 text-center text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+          <div
+            className={`py-10 text-center text-xs sm:text-sm font-medium ${
+              darkMode ? 'text-slate-200' : 'text-slate-700'
+            }`}
+          >
             No stories match this filter.
           </div>
         ) : (
-          <div className="divide-y divide-slate-300/65 dark:divide-white/[0.08] max-h-[680px] overflow-y-auto pr-1 thin-scrollbar">
+          <div
+            className={`divide-y max-h-[680px] overflow-y-auto pr-1 thin-scrollbar ${
+              darkMode ? 'divide-white/10' : 'divide-slate-300/75'
+            }`}
+          >
             {filteredNews.map((item) => {
               const cleanItemUrl = item.url.split('#')[0];
               const cleanDiscussionUrl = item.discussionUrl ? item.discussionUrl.split('#')[0] : '';
@@ -182,21 +194,29 @@ export const LiveNewsSidebar: React.FC<LiveNewsSidebarProps> = React.memo(
                     href={cleanItemUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`group flex items-start justify-between gap-2 text-[13px] sm:text-sm font-semibold leading-snug hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-2 ${
-                      darkMode ? 'text-slate-100' : 'text-slate-900'
+                    className={`group flex items-start justify-between gap-2 text-[13px] sm:text-sm font-bold leading-snug transition-colors mb-2 ${
+                      darkMode
+                        ? 'text-white hover:text-blue-400'
+                        : 'text-slate-950 hover:text-blue-600'
                     }`}
                   >
                     <span>{item.title}</span>
-                    <ArrowUpRight className="w-4 h-4 shrink-0 text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5" />
+                    <ArrowUpRight
+                      className={`w-4 h-4 shrink-0 opacity-75 group-hover:opacity-100 transition-opacity mt-0.5 ${
+                        darkMode ? 'text-slate-200' : 'text-slate-700'
+                      }`}
+                    />
                   </a>
 
-                  <div className="flex items-center justify-between gap-2 text-xs font-mono tabular-nums text-slate-600 dark:text-slate-300">
+                  <div
+                    className={`flex items-center justify-between gap-2 text-xs font-mono tabular-nums ${
+                      darkMode ? 'text-slate-200' : 'text-slate-700'
+                    }`}
+                  >
                     <div className="flex items-center gap-1.5 truncate">
-                      <span className="font-semibold text-slate-800 dark:text-slate-200">
-                        {item.sourceLabel}
-                      </span>
+                      <span className="font-bold">{item.sourceLabel}</span>
                       <span aria-hidden="true">·</span>
-                      <span className="font-semibold text-slate-800 dark:text-slate-200">
+                      <span className="font-bold">
                         {item.source === 'github'
                           ? `★ ${(item.points / 1000).toFixed(1)}k`
                           : `▲ ${item.points}`}
@@ -208,23 +228,25 @@ export const LiveNewsSidebar: React.FC<LiveNewsSidebarProps> = React.memo(
                             href={cleanDiscussionUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hover:text-blue-600 dark:hover:text-blue-400 hover:underline"
+                            className="font-bold hover:underline"
                           >
                             {item.commentsCount}c
                           </a>
                         </>
                       )}
                       <span aria-hidden="true">·</span>
-                      <span>{formatRelativeTime(item.publishedAt)}</span>
+                      <span className="font-semibold">
+                        {formatRelativeTime(item.publishedAt)}
+                      </span>
                     </div>
 
                     {isAlreadyIndexed ? (
                       <span
                         title="Indexed in directory"
-                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-sans font-semibold shrink-0 ${
+                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-sans font-bold shrink-0 ${
                           darkMode
                             ? 'neu-pressed-dark text-emerald-400'
-                            : 'neu-pressed-light text-emerald-600'
+                            : 'neu-pressed-light text-emerald-700'
                         }`}
                       >
                         <Check className="w-3 h-3" />
@@ -235,10 +257,8 @@ export const LiveNewsSidebar: React.FC<LiveNewsSidebarProps> = React.memo(
                         type="button"
                         onClick={() => onPromoteToDirectory(item)}
                         title="Add to directory"
-                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-sans font-semibold cursor-pointer shrink-0 ${
-                          darkMode
-                            ? 'neu-btn-dark text-blue-400'
-                            : 'neu-btn-light text-blue-600'
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-sans font-bold cursor-pointer shrink-0 ${
+                          darkMode ? 'neu-btn-dark' : 'neu-btn-light'
                         }`}
                       >
                         <Plus className="w-3 h-3" />

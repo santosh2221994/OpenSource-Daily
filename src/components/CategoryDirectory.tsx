@@ -59,7 +59,7 @@ export const CategoryDirectory: React.FC<CategoryDirectoryProps> = React.memo(
           id="directory"
           aria-label="Project Directory Empty State"
           className={`rounded-2xl p-10 text-center ${
-            darkMode ? 'glass-panel-dark text-slate-200' : 'glass-panel-light text-slate-700'
+            darkMode ? 'glass-panel-dark text-white' : 'glass-panel-light text-slate-900'
           }`}
         >
           <h2
@@ -69,13 +69,17 @@ export const CategoryDirectory: React.FC<CategoryDirectoryProps> = React.memo(
           >
             No matching repositories found
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-sm mx-auto mb-5">
+          <p
+            className={`text-xs sm:text-sm font-medium max-w-sm mx-auto mb-5 ${
+              darkMode ? 'text-slate-200' : 'text-slate-700'
+            }`}
+          >
             Try clearing your search or category filter to browse all indexed libraries.
           </p>
           <button
             type="button"
             onClick={onResetFilters}
-            className="neu-btn-primary inline-flex items-center gap-1.5 px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl cursor-pointer"
+            className="neu-btn-primary inline-flex items-center gap-1.5 px-4 py-2 text-xs sm:text-sm font-bold rounded-xl cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset Filters</span>
@@ -112,11 +116,19 @@ export const CategoryDirectory: React.FC<CategoryDirectoryProps> = React.memo(
               {headingLabel}
             </h2>
             {activeFilterParts.length > 0 && (
-              <span className="text-xs sm:text-sm font-mono font-semibold text-blue-600 dark:text-blue-400">
+              <span
+                className={`text-xs sm:text-sm font-mono font-bold ${
+                  darkMode ? 'text-blue-400' : 'text-blue-600'
+                }`}
+              >
                 · {activeFilterParts.join(' · ')}
               </span>
             )}
-            <span className="text-xs sm:text-sm font-mono font-semibold tabular-nums text-slate-500 dark:text-slate-400 shrink-0">
+            <span
+              className={`text-xs sm:text-sm font-mono font-bold tabular-nums shrink-0 ${
+                darkMode ? 'text-slate-200' : 'text-slate-700'
+              }`}
+            >
               · {projects.length.toLocaleString()}
             </span>
           </div>
@@ -125,10 +137,8 @@ export const CategoryDirectory: React.FC<CategoryDirectoryProps> = React.memo(
             <button
               type="button"
               onClick={onResetFilters}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-sans font-semibold cursor-pointer shrink-0 ${
-                darkMode
-                  ? 'neu-btn-dark text-blue-400'
-                  : 'neu-btn-light text-blue-600'
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-sans font-bold cursor-pointer shrink-0 ${
+                darkMode ? 'neu-btn-dark' : 'neu-btn-light'
               }`}
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -159,7 +169,7 @@ export const CategoryDirectory: React.FC<CategoryDirectoryProps> = React.memo(
             <button
               type="button"
               onClick={() => setVisibleCount((prev) => prev + GRID_STEP)}
-              className={`inline-flex items-center gap-1.5 px-5 py-2.5 text-xs sm:text-sm font-semibold rounded-xl cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 px-5 py-2.5 text-xs sm:text-sm font-bold rounded-xl cursor-pointer ${
                 darkMode ? 'neu-btn-dark' : 'neu-btn-light'
               }`}
             >

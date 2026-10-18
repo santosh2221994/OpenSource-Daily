@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
@@ -9,6 +10,11 @@
 
   html {
     scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
@@ -25,10 +31,14 @@
   code, pre, .font-mono {
     font-family: var(--font-mono);
   }
+
+  svg.lucide {
+    stroke-width: 2.15px;
+  }
 }
 
 /* ==========================================================================
-   Pure Minimal Neumorphic (Soft UI) Surface System — Zero Colored Borders
+   High-Contrast Minimal Neumorphic (Soft UI) Surface System
    ========================================================================== */
 
 /* 1. Matte Sculpted Canvas */
@@ -38,88 +48,93 @@
 }
 
 .glass-ambient-dark {
-  background-color: #101520;
+  background-color: #0f141f;
   color: #f8fafc;
 }
 
 .glass-ambient-dark option {
-  background-color: #1a2232;
+  background-color: #1a2234;
   color: #f8fafc;
 }
 
 .glass-ambient-light option {
-  background-color: #f8fafd;
+  background-color: #ffffff;
   color: #0f172a;
 }
 
 /* 2. Top Header & Toolbar Surfaces */
 .glass-header-light {
-  background: rgba(244, 247, 252, 0.95);
+  background: rgba(244, 247, 252, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(203, 213, 225, 0.75);
   box-shadow: 0 4px 16px rgba(148, 163, 184, 0.18);
+  color: #0f172a;
 }
 
 .glass-header-dark {
-  background: rgba(17, 22, 34, 0.95);
+  background: rgba(16, 21, 33, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.55);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  color: #f8fafc;
 }
 
 .glass-toolbar-light {
   background: #f1f5fa;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+  border-bottom: 1px solid rgba(203, 213, 225, 0.85);
   box-shadow: 0 2px 10px rgba(148, 163, 184, 0.1);
+  color: #0f172a;
 }
 
 .glass-toolbar-dark {
   background: #131926;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  color: #f8fafc;
 }
 
 /* 3. Extruded Neumorphic Panels (Spotlight, Sidebar, Empty States) */
 .glass-panel-light {
-  background: #f6f9fc;
-  border: 1px solid rgba(255, 255, 255, 0.95);
+  background: #f8fafd;
+  border: 1px solid #ffffff;
   box-shadow:
-    8px 8px 18px #cfd8e4,
+    8px 8px 18px #cdd6e3,
     -8px -8px 18px #ffffff,
     0 1px 0 #ffffff inset;
+  color: #0f172a;
 }
 
 .glass-panel-dark {
   background: #182030;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow:
-    8px 8px 20px #090c12,
-    -6px -6px 16px #212b3f,
-    0 1px 0 rgba(255, 255, 255, 0.05) inset;
+    8px 8px 20px #080b11,
+    -6px -6px 16px #222c40,
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  color: #f8fafc;
 }
 
-/* 4. Extruded Neumorphic Cards with Pure Shadow Elevation (No Blue Borders) */
+/* 4. Extruded Neumorphic Cards with Pure Shadow Elevation */
 .glass-card-light {
-  background: #f6f9fc;
-  border: 1px solid rgba(255, 255, 255, 0.95);
+  background: #f8fafd;
+  border: 1px solid #ffffff;
   box-shadow:
-    6px 6px 14px #cfd8e5,
+    6px 6px 14px #cdd6e3,
     -6px -6px 14px #ffffff,
     0 1px 0 #ffffff inset;
+  color: #0f172a;
   transition:
     transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
     background-color 180ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card-light:hover {
   background: #ffffff;
-  border-color: #ffffff;
   box-shadow:
-    12px 16px 28px #c1ccdc,
+    12px 16px 28px #bfcad9,
     -8px -8px 20px #ffffff,
     0 1px 0 #ffffff inset;
   transform: translateY(-2.5px);
@@ -127,11 +142,12 @@
 
 .glass-card-dark {
   background: #182030;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow:
-    6px 6px 14px #090c12,
-    -5px -5px 12px #212b3f,
-    0 1px 0 rgba(255, 255, 255, 0.04) inset;
+    6px 6px 14px #080b11,
+    -5px -5px 12px #222c40,
+    0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  color: #f8fafc;
   transition:
     transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -140,169 +156,173 @@
 }
 
 .glass-card-dark:hover {
-  background: #1d2639;
-  border-color: rgba(255, 255, 255, 0.12);
+  background: #1e283b;
+  border-color: rgba(255, 255, 255, 0.14);
   box-shadow:
-    12px 16px 30px #06080d,
-    -6px -6px 18px #263148,
-    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+    12px 16px 30px #05070b,
+    -6px -6px 18px #27324a,
+    0 1px 0 rgba(255, 255, 255, 0.09) inset;
   transform: translateY(-2.5px);
 }
 
 /* 5. Recessed / Carved Neumorphic Wells & Interactive Input Box */
 .neu-inset-light {
-  background: #eaeff7;
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: #e8eef6;
+  border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow:
-    inset 3px 3px 6px #cbd5e3,
+    inset 3px 3px 6px #c8d2e1,
     inset -3px -3px 6px #ffffff;
+  color: #0f172a;
 }
 
 .neu-inset-dark {
-  background: #111622;
-  border: 1px solid rgba(255, 255, 255, 0.045);
+  background: #101521;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow:
-    inset 3px 3px 7px #070a0f,
-    inset -3px -3px 7px #1a2232;
+    inset 3px 3px 7px #07090e,
+    inset -3px -3px 7px #1b2334;
+  color: #f8fafc;
 }
 
-/* Precision Input Box with Pure Neumorphic Depth (No Blue Border) */
+/* Precision Input Box with Pure Neumorphic Depth */
 .neu-input-light {
   background: #e9eff7;
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(203, 213, 225, 0.85);
   box-shadow:
-    inset 2.5px 2.5px 5px #cbd4e2,
+    inset 2.5px 2.5px 5px #c8d2e1,
     inset -2.5px -2.5px 5px #ffffff;
+  color: #0f172a;
   transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .neu-input-light:hover {
-  background: #edf2f9;
+  background: #eef3fa;
 }
 
 .neu-input-light:focus-within {
   background: #ffffff;
-  border-color: rgba(203, 213, 225, 0.9);
+  border-color: #94a3b8;
   box-shadow:
-    inset 2px 2px 4px rgba(202, 211, 225, 0.55),
-    0 4px 12px rgba(148, 163, 184, 0.16);
+    inset 2px 2px 4px rgba(202, 211, 225, 0.5),
+    0 4px 12px rgba(148, 163, 184, 0.18);
 }
 
 .neu-input-dark {
-  background: #0e131d;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #0e131e;
+  border: 1px solid rgba(255, 255, 255, 0.09);
   box-shadow:
     inset 2.5px 2.5px 6px #06080d,
     inset -2.5px -2.5px 6px #182030;
+  color: #f8fafc;
   transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .neu-input-dark:hover {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .neu-input-dark:focus-within {
-  background: #131a28;
-  border-color: rgba(255, 255, 255, 0.14);
+  background: #131b2a;
+  border-color: rgba(255, 255, 255, 0.22);
   box-shadow:
     inset 2px 2px 4px rgba(6, 8, 13, 0.7),
-    0 4px 14px rgba(0, 0, 0, 0.45);
+    0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
-/* 6. Tactile Neumorphic Buttons & Controls (No Blue Borders) */
+/* 6. Tactile Neumorphic Buttons & Controls — High Readability */
 .neu-btn-light {
-  background: linear-gradient(145deg, #ffffff, #ebf0f8);
-  border: 1px solid rgba(255, 255, 255, 0.95);
+  background: linear-gradient(145deg, #ffffff, #e9eff7);
+  border: 1px solid #ffffff;
   box-shadow:
-    3px 3px 7px #cbd4e2,
+    3px 3px 7px #c8d2e1,
     -3px -3px 7px #ffffff;
-  color: #1e293b;
+  color: #0f172a;
   transition: all 140ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .neu-btn-light:hover {
-  background: linear-gradient(145deg, #ffffff, #f2f6fc);
-  border-color: #ffffff;
-  color: #0f172a;
+  background: #ffffff;
+  color: #020617;
   box-shadow:
-    4px 5px 10px #c1ccdc,
+    4px 5px 10px #bec9d9,
     -4px -4px 9px #ffffff;
   transform: translateY(-0.5px);
 }
 
 .neu-btn-light:active,
 .neu-pressed-light {
-  background: #e4eaf3;
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: #dfe7f2;
+  border: 1px solid rgba(255, 255, 255, 0.8);
   box-shadow:
-    inset 2.5px 2.5px 5px #c5cfde,
+    inset 2.5px 2.5px 5px #c1ccdc,
     inset -2.5px -2.5px 5px #ffffff;
-  color: #0f172a;
+  color: #1d4ed8;
   transform: translateY(0);
 }
 
 .neu-btn-dark {
-  background: linear-gradient(145deg, #1f2839, #171e2c);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: linear-gradient(145deg, #212b3d, #182030);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow:
-    3px 3px 8px #090c12,
-    -3px -3px 7px #242e42;
-  color: #e2e8f0;
+    3px 3px 8px #080b11,
+    -3px -3px 7px #263147;
+  color: #f1f5f9;
   transition: all 140ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .neu-btn-dark:hover {
-  background: linear-gradient(145deg, #252f44, #1b2333);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: linear-gradient(145deg, #273349, #1d2639);
+  border-color: rgba(255, 255, 255, 0.16);
   color: #ffffff;
   box-shadow:
-    4px 5px 11px #06080d,
-    -4px -4px 9px #29344b;
+    4px 5px 11px #05070b,
+    -4px -4px 9px #2b3750;
   transform: translateY(-0.5px);
 }
 
 .neu-btn-dark:active,
 .neu-pressed-dark {
-  background: #101520;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: #0f141f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow:
-    inset 2.5px 2.5px 5px #07090e,
-    inset -2.5px -2.5px 5px #1b2232;
-  color: #ffffff;
+    inset 2.5px 2.5px 5px #06080d,
+    inset -2.5px -2.5px 5px #1c2436;
+  color: #60a5fa;
   transform: translateY(0);
 }
 
 /* Primary Tactile CTA Button */
 .neu-btn-primary {
   background: linear-gradient(145deg, #1e293b, #0f172a);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   color: #ffffff;
   box-shadow:
     0 4px 12px rgba(15, 23, 42, 0.25),
-    0 1px 0 rgba(255, 255, 255, 0.18) inset;
+    0 1px 0 rgba(255, 255, 255, 0.2) inset;
   transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark .neu-btn-primary {
-  background: linear-gradient(145deg, #f8fafc, #e2e8f0);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  background: linear-gradient(145deg, #ffffff, #e2e8f0);
+  border: 1px solid #ffffff;
   color: #0f172a;
   box-shadow:
-    0 4px 14px rgba(0, 0, 0, 0.45),
+    0 4px 14px rgba(0, 0, 0, 0.5),
     0 1px 0 #ffffff inset;
 }
 
 .neu-btn-primary:hover {
   transform: translateY(-0.5px);
   box-shadow:
-    0 6px 16px rgba(15, 23, 42, 0.32),
+    0 6px 16px rgba(15, 23, 42, 0.34),
     0 1px 0 rgba(255, 255, 255, 0.25) inset;
 }
 
 .dark .neu-btn-primary:hover {
   background: #ffffff;
+  color: #020617;
   box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.6),
+    0 6px 18px rgba(0, 0, 0, 0.65),
     0 1px 0 #ffffff inset;
 }
 
@@ -315,18 +335,20 @@
   background: #f8fafd;
   border: 1px solid #ffffff;
   box-shadow:
-    0 28px 64px -12px rgba(15, 23, 42, 0.32),
-    0 12px 28px -6px rgba(15, 23, 42, 0.16),
+    0 28px 64px -12px rgba(15, 23, 42, 0.34),
+    0 12px 28px -6px rgba(15, 23, 42, 0.18),
     0 1px 0 #ffffff inset;
+  color: #0f172a;
 }
 
 .glass-modal-dark {
-  background: #182030;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #192233;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
-    0 32px 72px -12px rgba(0, 0, 0, 0.9),
-    0 14px 32px -6px rgba(0, 0, 0, 0.72),
-    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+    0 32px 72px -12px rgba(0, 0, 0, 0.92),
+    0 14px 32px -6px rgba(0, 0, 0, 0.74),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset;
+  color: #f8fafc;
 }
 
 /* Instant Modern Minimal CSS Tooltips */
@@ -347,17 +369,17 @@
   border-radius: 6px;
   font-family: var(--font-sans);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.3;
   letter-spacing: 0;
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
   z-index: 60;
-  background: rgba(15, 23, 42, 0.96);
-  color: #f8fafc;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+  background: #0f172a;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.32);
   transition: opacity 120ms cubic-bezier(0.16, 1, 0.3, 1),
     transform 120ms cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -405,10 +427,10 @@
 }
 
 .thin-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.35);
+  background: rgba(148, 163, 184, 0.4);
   border-radius: 9999px;
 }
 
 .thin-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.55);
+  background: rgba(148, 163, 184, 0.6);
 }

@@ -100,8 +100,8 @@ function buildBaselineStats(targetProject: PlatformProject): GitHubRepoRealtimeS
   };
 }
 
-const ContributorBadge: React.FC<{ contributor: GitHubContributor }> = React.memo(
-  ({ contributor }) => {
+const ContributorBadge: React.FC<{ contributor: GitHubContributor; darkMode: boolean }> =
+  React.memo(({ contributor, darkMode }) => {
     const [imgOk, setImgOk] = useState(false);
     const avatarSrc =
       contributor.avatarUrl || `https://github.com/${contributor.login}.png?size=64`;
@@ -117,9 +117,17 @@ const ContributorBadge: React.FC<{ contributor: GitHubContributor }> = React.mem
         target="_blank"
         rel="noopener noreferrer"
         title={`${contributor.login} (${contributor.contributions.toLocaleString()} commits)`}
-        className="inline-flex items-center gap-1.5 font-semibold text-slate-900 dark:text-white hover:underline tabular-nums shrink-0"
+        className={`inline-flex items-center gap-1.5 font-bold hover:underline tabular-nums shrink-0 ${
+          darkMode ? 'text-white' : 'text-slate-950'
+        }`}
       >
-        <span className="relative inline-flex items-center justify-center w-5 h-5 rounded-full overflow-hidden bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-white/15 text-[10px] font-bold text-slate-700 dark:text-slate-200 shrink-0">
+        <span
+          className={`relative inline-flex items-center justify-center w-5 h-5 rounded-full overflow-hidden border text-[10px] font-bold shrink-0 ${
+            darkMode
+              ? 'bg-slate-800 border-white/20 text-white'
+              : 'bg-slate-200 border-slate-400 text-slate-900'
+          }`}
+        >
           {!imgOk && <span>{initial}</span>}
           <img
             src={avatarSrc}
@@ -136,8 +144,7 @@ const ContributorBadge: React.FC<{ contributor: GitHubContributor }> = React.mem
         <span className="truncate max-w-[130px]">@{contributor.login}</span>
       </a>
     );
-  }
-);
+  });
 
 export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
   project,
@@ -427,7 +434,7 @@ export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
       <div
         onClick={(e) => e.stopPropagation()}
         className={`w-full max-w-[600px] rounded-2xl p-6 sm:p-7 overflow-hidden ${
-          darkMode ? 'glass-modal-dark text-slate-100' : 'glass-modal-light text-slate-900'
+          darkMode ? 'glass-modal-dark text-white' : 'glass-modal-light text-slate-950'
         }`}
       >
         {/* 1. Header: Recessed Logo + High-Legibility Title & Metadata + Tactile Controls */}
@@ -441,15 +448,19 @@ export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
             />
 
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2 h-5 text-xs sm:text-[13px] font-mono font-semibold tabular-nums text-slate-600 dark:text-slate-300 truncate mb-1">
+              <div
+                className={`flex items-center gap-2 h-5 text-xs sm:text-[13px] font-mono font-bold tabular-nums truncate mb-1 ${
+                  darkMode ? 'text-slate-200' : 'text-slate-700'
+                }`}
+              >
                 <span className="truncate">{CATEGORY_SHORT_LABELS[project.category]}</span>
-                <span aria-hidden="true" className="text-slate-400">
+                <span aria-hidden="true" className="opacity-60">
                   ·
                 </span>
-                <span className="text-slate-900 dark:text-white shrink-0">
+                <span className={`shrink-0 ${darkMode ? 'text-white' : 'text-slate-950'}`}>
                   {stats.language || project.language || 'OSS'}
                 </span>
-                <span aria-hidden="true" className="text-slate-400">
+                <span aria-hidden="true" className="opacity-60">
                   ·
                 </span>
                 <span className="shrink-0">{stats.license || project.license || 'MIT'}</span>
@@ -522,7 +533,7 @@ export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
 
         {/* 2. High-Legibility Description (Fixed 3-Line Height for Zero Shift) */}
         <p
-          className={`h-[4.125rem] text-sm sm:text-[15px] leading-[1.375rem] line-clamp-3 mb-5 ${
+          className={`h-[4.125rem] text-sm sm:text-[15px] font-medium leading-[1.375rem] line-clamp-3 mb-5 ${
             darkMode ? 'text-slate-100' : 'text-slate-800'
           }`}
         >
@@ -536,20 +547,28 @@ export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
           }`}
         >
           {/* Top Bar: Repo Slug + Updated Time + Tactile Sync Button */}
-          <div className="flex items-center justify-between gap-2 h-7 pb-3 mb-3.5 border-b border-slate-300/80 dark:border-white/[0.08] text-xs sm:text-[13px] font-mono tabular-nums text-slate-600 dark:text-slate-300">
+          <div
+            className={`flex items-center justify-between gap-2 h-7 pb-3 mb-3.5 border-b text-xs sm:text-[13px] font-mono tabular-nums ${
+              darkMode
+                ? 'border-white/10 text-slate-200'
+                : 'border-slate-300/80 text-slate-700'
+            }`}
+          >
             <div className="flex items-center gap-2 truncate min-w-0">
               <a
                 href={cleanGithubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-bold text-slate-950 dark:text-white hover:underline truncate"
+                className={`font-bold hover:underline truncate ${
+                  darkMode ? 'text-white' : 'text-slate-950'
+                }`}
               >
                 {repoSlug}
               </a>
-              <span aria-hidden="true" className="text-slate-400">
+              <span aria-hidden="true" className="opacity-60">
                 ·
               </span>
-              <span className="font-medium shrink-0">
+              <span className="font-semibold shrink-0">
                 Updated {formatRelativePush(stats.pushedAt)}
               </span>
             </div>
@@ -559,7 +578,7 @@ export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
               onClick={() => syncRepositoryStats(project, true)}
               disabled={syncState === 'syncing'}
               title="Sync live repository metrics"
-              className={`inline-flex items-center justify-center gap-1.5 w-[84px] py-1 rounded-lg text-xs font-sans font-semibold cursor-pointer disabled:opacity-60 shrink-0 ${
+              className={`inline-flex items-center justify-center gap-1.5 w-[84px] py-1 rounded-lg text-xs font-sans font-bold cursor-pointer disabled:opacity-60 shrink-0 ${
                 syncState === 'synced'
                   ? darkMode
                     ? 'neu-pressed-dark text-emerald-400'
@@ -588,78 +607,150 @@ export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
           </div>
 
           {/* 4-Column Tabular Metrics */}
-          <div className="grid grid-cols-4 gap-3 text-left divide-x divide-slate-300/80 dark:divide-white/[0.08]">
+          <div
+            className={`grid grid-cols-4 gap-3 text-left divide-x ${
+              darkMode ? 'divide-white/10' : 'divide-slate-300/80'
+            }`}
+          >
             <div className="pr-2 min-w-0">
-              <div className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500/20 shrink-0" />
+              <div
+                className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold mb-1 ${
+                  darkMode ? 'text-slate-200' : 'text-slate-700'
+                }`}
+              >
+                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500/25 shrink-0" />
                 <span className="truncate">Stars</span>
               </div>
-              <div className="font-display text-lg sm:text-xl font-bold tabular-nums truncate text-slate-950 dark:text-white">
+              <div
+                className={`font-display text-lg sm:text-xl font-bold tabular-nums truncate ${
+                  darkMode ? 'text-white' : 'text-slate-950'
+                }`}
+              >
                 {displayedStars.toLocaleString()}
               </div>
             </div>
 
             <div className="px-3 min-w-0">
-              <div className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                <GitFork className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
+              <div
+                className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold mb-1 ${
+                  darkMode ? 'text-slate-200' : 'text-slate-700'
+                }`}
+              >
+                <GitFork
+                  className={`w-3.5 h-3.5 shrink-0 ${
+                    darkMode ? 'text-blue-400' : 'text-blue-600'
+                  }`}
+                />
                 <span className="truncate">Forks</span>
               </div>
-              <div className="font-display text-lg sm:text-xl font-bold tabular-nums truncate text-slate-950 dark:text-white">
+              <div
+                className={`font-display text-lg sm:text-xl font-bold tabular-nums truncate ${
+                  darkMode ? 'text-white' : 'text-slate-950'
+                }`}
+              >
                 {stats.forks.toLocaleString()}
               </div>
             </div>
 
             <div className="px-3 min-w-0">
-              <div className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                <Users className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+              <div
+                className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold mb-1 ${
+                  darkMode ? 'text-slate-200' : 'text-slate-700'
+                }`}
+              >
+                <Users
+                  className={`w-3.5 h-3.5 shrink-0 ${
+                    darkMode ? 'text-emerald-400' : 'text-emerald-600'
+                  }`}
+                />
                 <span className="truncate">Devs</span>
               </div>
-              <div className="font-display text-lg sm:text-xl font-bold tabular-nums truncate text-slate-950 dark:text-white">
+              <div
+                className={`font-display text-lg sm:text-xl font-bold tabular-nums truncate ${
+                  darkMode ? 'text-white' : 'text-slate-950'
+                }`}
+              >
                 {stats.totalContributors.toLocaleString()}
               </div>
             </div>
 
             <div className="pl-3 min-w-0">
-              <div className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-slate-600 dark:text-slate-300 mb-1">
+              <div
+                className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold mb-1 ${
+                  darkMode ? 'text-slate-200' : 'text-slate-700'
+                }`}
+              >
                 <CircleDot className="w-3.5 h-3.5 text-amber-500 shrink-0" />
                 <span className="truncate">Issues</span>
               </div>
-              <div className="font-display text-lg sm:text-xl font-bold tabular-nums truncate text-slate-950 dark:text-white">
+              <div
+                className={`font-display text-lg sm:text-xl font-bold tabular-nums truncate ${
+                  darkMode ? 'text-white' : 'text-slate-950'
+                }`}
+              >
                 {stats.openIssues.toLocaleString()}
               </div>
             </div>
           </div>
 
           {/* Available OS Row (Fixed Single Line) */}
-          <div className="flex items-center justify-between gap-2 h-7 pt-3 mt-3.5 border-t border-slate-300/80 dark:border-white/[0.08] text-xs sm:text-[13px] font-mono overflow-hidden whitespace-nowrap">
+          <div
+            className={`flex items-center justify-between gap-2 h-7 pt-3 mt-3.5 border-t text-xs sm:text-[13px] font-mono overflow-hidden whitespace-nowrap ${
+              darkMode ? 'border-white/10' : 'border-slate-300/80'
+            }`}
+          >
             <div className="flex items-center gap-2 overflow-hidden min-w-0">
-              <Monitor className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300 shrink-0" />
-              <span className="font-sans font-semibold text-slate-600 dark:text-slate-300 shrink-0">
+              <Monitor
+                className={`w-3.5 h-3.5 shrink-0 ${
+                  darkMode ? 'text-blue-400' : 'text-blue-600'
+                }`}
+              />
+              <span
+                className={`font-sans font-bold shrink-0 ${
+                  darkMode ? 'text-slate-200' : 'text-slate-700'
+                }`}
+              >
                 Supported OS:
               </span>
-              <span className="font-bold text-slate-950 dark:text-white truncate">
+              <span
+                className={`font-bold truncate ${
+                  darkMode ? 'text-white' : 'text-slate-950'
+                }`}
+              >
                 {platformInfo.platforms.join(' · ')}
               </span>
             </div>
 
             {stats.latestReleaseTag && (
-              <span className="font-semibold text-emerald-700 dark:text-emerald-400 shrink-0">
+              <span
+                className={`font-bold shrink-0 ${
+                  darkMode ? 'text-emerald-400' : 'text-emerald-700'
+                }`}
+              >
                 {stats.latestReleaseTag}
               </span>
             )}
           </div>
 
           {/* Maintainers Row (Fixed Single Line) */}
-          <div className="flex items-center gap-2 h-7 pt-2.5 mt-2.5 border-t border-slate-300/80 dark:border-white/[0.08] text-xs sm:text-[13px] font-mono overflow-hidden whitespace-nowrap">
-            <span className="font-sans font-semibold text-slate-600 dark:text-slate-300 shrink-0">
+          <div
+            className={`flex items-center gap-2 h-7 pt-2.5 mt-2.5 border-t text-xs sm:text-[13px] font-mono overflow-hidden whitespace-nowrap ${
+              darkMode ? 'border-white/10' : 'border-slate-300/80'
+            }`}
+          >
+            <span
+              className={`font-sans font-bold shrink-0 ${
+                darkMode ? 'text-slate-200' : 'text-slate-700'
+              }`}
+            >
               Maintainers:
             </span>
             <div className="flex items-center gap-2.5 overflow-hidden min-w-0">
               {visibleMaintainers.map((contrib, idx) => (
                 <React.Fragment key={contrib.login}>
-                  <ContributorBadge contributor={contrib} />
+                  <ContributorBadge contributor={contrib} darkMode={darkMode} />
                   {idx < visibleMaintainers.length - 1 && (
-                    <span aria-hidden="true" className="text-slate-400 shrink-0">
+                    <span aria-hidden="true" className="opacity-60 shrink-0">
                       ·
                     </span>
                   )}
@@ -678,15 +769,19 @@ export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
           }`}
         >
           <div className="flex items-center gap-2.5 min-w-0 flex-1">
-            <Terminal className="w-4 h-4 text-slate-600 dark:text-slate-300 shrink-0" />
-            <code className="font-semibold truncate select-all">{cliCommand}</code>
+            <Terminal
+              className={`w-4 h-4 shrink-0 ${
+                darkMode ? 'text-blue-400' : 'text-blue-600'
+              }`}
+            />
+            <code className="font-bold truncate select-all">{cliCommand}</code>
           </div>
 
           <button
             type="button"
             onClick={handleCopyCli}
             title="Copy terminal command"
-            className={`inline-flex items-center justify-center gap-1.5 w-[78px] py-1.5 text-xs font-sans font-semibold rounded-lg cursor-pointer shrink-0 ${
+            className={`inline-flex items-center justify-center gap-1.5 w-[78px] py-1.5 text-xs font-sans font-bold rounded-lg cursor-pointer shrink-0 ${
               copiedCli
                 ? darkMode
                   ? 'neu-pressed-dark text-emerald-400'
@@ -711,7 +806,11 @@ export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
         </div>
 
         {/* 5. Clean Footer: Tactile Topic Chips + Download / Website / Primary GitHub Buttons */}
-        <div className="flex items-center justify-between gap-3 h-11 pt-3 border-t border-slate-300/80 dark:border-white/[0.08]">
+        <div
+          className={`flex items-center justify-between gap-3 h-11 pt-3 border-t ${
+            darkMode ? 'border-white/10' : 'border-slate-300/80'
+          }`}
+        >
           <div className="flex items-center gap-2 text-xs font-mono overflow-hidden whitespace-nowrap min-w-0 flex-1">
             {project.tags.slice(0, 3).map((tag) => (
               <button
@@ -722,10 +821,8 @@ export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
                   onClose();
                 }}
                 title={`Filter directory by #${tag}`}
-                className={`px-2.5 py-1 rounded-lg font-semibold cursor-pointer truncate ${
-                  darkMode
-                    ? 'neu-btn-dark text-slate-200'
-                    : 'neu-btn-light text-slate-800'
+                className={`px-2.5 py-1 rounded-lg font-bold cursor-pointer truncate ${
+                  darkMode ? 'neu-btn-dark' : 'neu-btn-light'
                 }`}
               >
                 #{tag}
@@ -740,7 +837,7 @@ export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 title={`Download for ${platformInfo.fullSummary}`}
-                className={`inline-flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-[13px] font-semibold rounded-xl whitespace-nowrap ${
+                className={`inline-flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-[13px] font-bold rounded-xl whitespace-nowrap ${
                   darkMode ? 'neu-btn-dark' : 'neu-btn-light'
                 }`}
               >
@@ -754,7 +851,7 @@ export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
                 href={cleanWebsiteUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-[13px] font-semibold rounded-xl whitespace-nowrap ${
+                className={`inline-flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-[13px] font-bold rounded-xl whitespace-nowrap ${
                   darkMode ? 'neu-btn-dark' : 'neu-btn-light'
                 }`}
               >
@@ -767,7 +864,7 @@ export const ProjectInspectorModal: React.FC<ProjectInspectorModalProps> = ({
               href={cleanGithubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="neu-btn-primary inline-flex items-center gap-1.5 px-4 py-2 text-xs sm:text-[13px] font-semibold rounded-xl whitespace-nowrap"
+              className="neu-btn-primary inline-flex items-center gap-1.5 px-4 py-2 text-xs sm:text-[13px] font-bold rounded-xl whitespace-nowrap"
             >
               <span>GitHub</span>
               <ExternalLink className="w-3.5 h-3.5 shrink-0" />

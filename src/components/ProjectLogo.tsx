@@ -76,7 +76,7 @@ const SIZE_CLASSES: Record<'xs' | 'sm' | 'md' | 'lg', { box: string; img: string
   sm: {
     box: 'w-8 h-8 rounded-xl p-1',
     img: 'w-full h-full rounded-lg object-contain',
-    text: 'text-[10px]',
+    text: 'text-[11px]',
   },
   md: {
     box: 'w-9 h-9 rounded-xl p-1',
@@ -114,7 +114,7 @@ export const ProjectLogo: React.FC<ProjectLogoProps> = React.memo(
         className={`relative shrink-0 inline-flex items-center justify-center overflow-hidden select-none transition-all ${
           sizeSpec.box
         } ${
-          darkMode ? 'neu-inset-dark text-blue-400' : 'neu-inset-light text-blue-600'
+          darkMode ? 'neu-inset-dark text-white' : 'neu-inset-light text-slate-900'
         } ${className}`}
       >
         {!imgLoaded && (

@@ -136,7 +136,13 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
                 darkMode ? 'neu-input-dark' : 'neu-input-light'
               }`}
             >
-              <Search className="w-4 h-4 shrink-0 pointer-events-none text-slate-500 dark:text-slate-400 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
+              <Search
+                className={`w-4 h-4 shrink-0 pointer-events-none transition-colors ${
+                  darkMode
+                    ? 'text-slate-200 group-focus-within:text-blue-400'
+                    : 'text-slate-700 group-focus-within:text-blue-600'
+                }`}
+              />
               <input
                 ref={searchInputRef}
                 type="text"
@@ -146,13 +152,17 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
                 aria-label="Search open-source projects and daily news"
                 className={`w-full h-full pl-3 pr-3 text-sm font-medium bg-transparent border-none focus:outline-none ${
                   darkMode
-                    ? 'text-white placeholder:text-slate-400'
-                    : 'text-slate-900 placeholder:text-slate-500'
+                    ? 'text-white placeholder:text-slate-300'
+                    : 'text-slate-950 placeholder:text-slate-600'
                 }`}
               />
 
               {hasActiveFilters && (
-                <span className="hidden sm:inline-block mr-2.5 text-xs font-mono font-semibold tabular-nums text-slate-600 dark:text-slate-300 whitespace-nowrap shrink-0">
+                <span
+                  className={`hidden sm:inline-block mr-2.5 text-xs font-mono font-bold tabular-nums whitespace-nowrap shrink-0 ${
+                    darkMode ? 'text-slate-200' : 'text-slate-700'
+                  }`}
+                >
                   {filteredCount.toLocaleString()} / {totalProjects.toLocaleString()}
                 </span>
               )}
@@ -176,10 +186,10 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
               ) : (
                 <kbd
                   title="Press '/' to focus search"
-                  className={`hidden sm:inline-flex items-center justify-center px-2 py-0.5 text-[11px] font-mono font-semibold rounded-md pointer-events-none shrink-0 ${
+                  className={`hidden sm:inline-flex items-center justify-center px-2 py-0.5 text-[11px] font-mono font-bold rounded-md pointer-events-none shrink-0 ${
                     darkMode
-                      ? 'neu-btn-dark text-slate-300'
-                      : 'neu-btn-light text-slate-600'
+                      ? 'neu-btn-dark text-slate-200'
+                      : 'neu-btn-light text-slate-700'
                   }`}
                 >
                   /
@@ -194,7 +204,7 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
                 type="button"
                 onClick={() => onSelectOS(isDownloadableFilter ? 'All' : 'Downloadable')}
                 title="Show repositories with direct desktop/mobile installers"
-                className={`inline-flex items-center gap-1.5 h-11 px-3.5 text-xs sm:text-[13px] font-semibold rounded-xl cursor-pointer whitespace-nowrap shrink-0 ${
+                className={`inline-flex items-center gap-1.5 h-11 px-3.5 text-xs sm:text-[13px] font-bold rounded-xl cursor-pointer whitespace-nowrap shrink-0 ${
                   isDownloadableFilter
                     ? darkMode
                       ? 'neu-pressed-dark'
@@ -213,15 +223,19 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
                 <Monitor
                   className={`w-3.5 h-3.5 absolute left-3 pointer-events-none ${
                     selectedOS !== 'All' && selectedOS !== 'Downloadable'
-                      ? 'text-blue-600 dark:text-blue-400'
-                      : 'text-slate-500 dark:text-slate-400'
+                      ? darkMode
+                        ? 'text-blue-400'
+                        : 'text-blue-600'
+                      : darkMode
+                      ? 'text-slate-200'
+                      : 'text-slate-700'
                   }`}
                 />
                 <select
                   aria-label="Filter by operating system"
                   value={selectedOS}
                   onChange={(e) => onSelectOS(e.target.value as OSFilterValue)}
-                  className={`appearance-none h-11 pl-8 pr-8 text-xs sm:text-[13px] font-semibold rounded-xl cursor-pointer focus:outline-none ${
+                  className={`appearance-none h-11 pl-8 pr-8 text-xs sm:text-[13px] font-bold rounded-xl cursor-pointer focus:outline-none ${
                     selectedOS !== 'All' && selectedOS !== 'Downloadable'
                       ? darkMode
                         ? 'neu-pressed-dark'
@@ -239,7 +253,11 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="w-3.5 h-3.5 absolute right-2.5 pointer-events-none text-slate-500 dark:text-slate-400" />
+                <ChevronDown
+                  className={`w-3.5 h-3.5 absolute right-2.5 pointer-events-none ${
+                    darkMode ? 'text-slate-200' : 'text-slate-700'
+                  }`}
+                />
               </div>
 
               {/* Language Filter Dropdown */}
@@ -247,15 +265,19 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
                 <Code2
                   className={`w-3.5 h-3.5 absolute left-3 pointer-events-none ${
                     selectedLanguage !== 'All'
-                      ? 'text-blue-600 dark:text-blue-400'
-                      : 'text-slate-500 dark:text-slate-400'
+                      ? darkMode
+                        ? 'text-blue-400'
+                        : 'text-blue-600'
+                      : darkMode
+                      ? 'text-slate-200'
+                      : 'text-slate-700'
                   }`}
                 />
                 <select
                   aria-label="Filter by language"
                   value={selectedLanguage}
                   onChange={(e) => onSelectLanguage(e.target.value)}
-                  className={`appearance-none h-11 pl-8 pr-8 text-xs sm:text-[13px] font-semibold rounded-xl cursor-pointer focus:outline-none ${
+                  className={`appearance-none h-11 pl-8 pr-8 text-xs sm:text-[13px] font-bold rounded-xl cursor-pointer focus:outline-none ${
                     selectedLanguage !== 'All'
                       ? darkMode
                         ? 'neu-pressed-dark'
@@ -272,7 +294,11 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="w-3.5 h-3.5 absolute right-2.5 pointer-events-none text-slate-500 dark:text-slate-400" />
+                <ChevronDown
+                  className={`w-3.5 h-3.5 absolute right-2.5 pointer-events-none ${
+                    darkMode ? 'text-slate-200' : 'text-slate-700'
+                  }`}
+                />
               </div>
 
               {/* Recessed Segmented Sort Switcher */}
@@ -291,14 +317,14 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
                       type="button"
                       onClick={() => onSortChange(opt.id)}
                       title={opt.tip}
-                      className={`inline-flex items-center gap-1.5 h-9 px-3 text-xs sm:text-[13px] font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                      className={`inline-flex items-center gap-1.5 h-9 px-3 text-xs sm:text-[13px] font-bold rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                         active
                           ? darkMode
                             ? 'neu-btn-dark text-blue-400'
                             : 'neu-btn-light text-blue-600'
                           : darkMode
-                          ? 'text-slate-300 hover:text-white'
-                          : 'text-slate-600 hover:text-slate-950'
+                          ? 'text-slate-200 hover:text-white'
+                          : 'text-slate-700 hover:text-slate-950'
                       }`}
                     >
                       {opt.icon}
@@ -314,7 +340,7 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
                   type="button"
                   onClick={onResetFilters}
                   title="Reset search and filters"
-                  className={`inline-flex items-center gap-1.5 h-11 px-3.5 text-xs sm:text-[13px] font-semibold rounded-xl cursor-pointer whitespace-nowrap shrink-0 ${
+                  className={`inline-flex items-center gap-1.5 h-11 px-3.5 text-xs sm:text-[13px] font-bold rounded-xl cursor-pointer whitespace-nowrap shrink-0 ${
                     darkMode ? 'neu-btn-dark' : 'neu-btn-light'
                   }`}
                 >
@@ -336,7 +362,7 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
               role="tab"
               aria-selected={selectedCategory === 'All'}
               onClick={() => onSelectCategory('All')}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-semibold whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-bold whitespace-nowrap shrink-0 cursor-pointer ${
                 selectedCategory === 'All'
                   ? darkMode
                     ? 'neu-pressed-dark'
@@ -347,7 +373,17 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
               }`}
             >
               <span>All</span>
-              <span className="font-mono tabular-nums text-[11px] opacity-80">
+              <span
+                className={`font-mono tabular-nums text-[11px] font-bold ${
+                  selectedCategory === 'All'
+                    ? darkMode
+                      ? 'text-blue-300'
+                      : 'text-blue-700'
+                    : darkMode
+                    ? 'text-slate-300'
+                    : 'text-slate-600'
+                }`}
+              >
                 {totalProjects}
               </span>
             </button>
@@ -363,7 +399,7 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
                   aria-selected={active}
                   title={cat}
                   onClick={() => onSelectCategory(active ? 'All' : cat)}
-                  className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-semibold whitespace-nowrap shrink-0 cursor-pointer ${
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-bold whitespace-nowrap shrink-0 cursor-pointer ${
                     active
                       ? darkMode
                         ? 'neu-pressed-dark'
@@ -374,7 +410,17 @@ export const HeroSearchFilter: React.FC<HeroSearchFilterProps> = React.memo(
                   }`}
                 >
                   <span>{CATEGORY_SHORT_LABELS[cat]}</span>
-                  <span className="font-mono tabular-nums text-[11px] opacity-80">
+                  <span
+                    className={`font-mono tabular-nums text-[11px] font-bold ${
+                      active
+                        ? darkMode
+                          ? 'text-blue-300'
+                          : 'text-blue-700'
+                        : darkMode
+                        ? 'text-slate-300'
+                        : 'text-slate-600'
+                    }`}
+                  >
                     {count}
                   </span>
                 </button>

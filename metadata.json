@@ -1,0 +1,8 @@
+{
+  "name": "OpenSource Daily",
+  "description": "Curated daily directory of the best open-source software across AI, Cloud, Databases, Productivity, E-Commerce, Analytics, and Cybersecurity.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
